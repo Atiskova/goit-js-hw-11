@@ -21,6 +21,8 @@ const onSearchFormSubmit = async event => {
   try {
     const { data } = await unsplashAPI.fetchPhotosByQuerty();
     if (data.hits.length === 0) {
+      searchBtnEl.disabled = false;
+      searchBtnEl.classList.remove('disabled');
       event.target.reset();
       galleryListEl.innerHTML = ' ';
       loadMoreBtnEl.classList.add('is-hidden');
@@ -32,11 +34,15 @@ const onSearchFormSubmit = async event => {
     }
 
     if (data.totalHits < 40) {
+      searchBtnEl.disabled = false;
+      searchBtnEl.classList.remove('disabled');
       galleryListEl.innerHTML = createGalleryCards(data.hits);
       loadMoreBtnEl.classList.add('is-hidden');
 
       return;
     }
+
+   
 
     galleryListEl.innerHTML = createGalleryCards(data.hits);
     loadMoreBtnEl.classList.remove('is-hidden');
@@ -53,7 +59,6 @@ const onLoadMoreBtnClick = async event => {
   loadMoreBtnEl.disabled = true;
   loadMoreBtnEl.classList.add('disabled');
 
-
   unsplashAPI.page += 1;
 
   try {
@@ -64,9 +69,6 @@ const onLoadMoreBtnClick = async event => {
       createGalleryCards(data.hits)
     );
 
-    
-
-   
     if (Math.ceil(data.totalHits / 40) < unsplashAPI.page) {
       loadMoreBtnEl.classList.add('is-hidden');
       Notify.info(`We're sorry, but you've reached the end of search results.`);
