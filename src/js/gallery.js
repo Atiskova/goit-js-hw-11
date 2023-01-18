@@ -40,6 +40,7 @@ const onSearchFormSubmit = async event => {
 
     galleryListEl.innerHTML = createGalleryCards(data.hits);
     loadMoreBtnEl.classList.remove('is-hidden');
+    Notify.info(`Hooray! We found ${data.totalHits} images.`);
   } catch (err) {
     console.log(err);
   }
@@ -63,7 +64,7 @@ const onLoadMoreBtnClick = async event => {
       createGalleryCards(data.hits)
     );
 
-    Notify.info(`Hooray! We found ${data.totalHits} images.`);
+    
 
    
     if (Math.ceil(data.totalHits / 40) < unsplashAPI.page) {
